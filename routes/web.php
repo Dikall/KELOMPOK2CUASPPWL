@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\PersonController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PersonController::class, 'index'])->nama('index');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::middleware(['auth',
+'user-access:person'])->group(function () {
+    Route::get('/person/index', [HomeController::class,
+    'Person'])->name('Person');
+});
